@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <my-button></my-button>
+    <user-card></user-card>
+    <template id="tpl">
+    <p>Привет, мир!</p>
+    </template>
+
+
+    <hello-user name="Аня"></hello-user>
+    <hello-user></hello-user>
+    <script src="script.js"></script>
+    <script>
+        class HelloUser extends HTMLElement {
+        connectedCallback() {
+            const name = this.getAttribute('name') || 'гость';
+            this.innerHTML = `Привет, ${name}!`;
+            }
+}
+        customElements.define('hello-user', HelloUser);
+    </script>
+    <script>
+        class CurrentYear extends HTMLElement {
+            connectedCallback() {
+        const year = new Date().getFullYear();
+        this.textContent = year;
+    }
+}
+
+        customElements.define('current-year', CurrentYear);
+</script>
+
+<footer>© <current-year></current-year> Моя компания</footer>
+
+<script>
+class ClickCounter extends HTMLElement {
+    constructor() {
+        super();
+        this.count = 0;
+    }
+    connectedCallback() {
+        this.render();
+        this.setupEventListeners();
+    }
+    render() {
+        this.innerHTML = `<button>Клики: ${this.count}</button>`;
+    }
+    setupEventListeners() {
+        this.querySelector('button').addEventListener('click', () => {
+            this.count++;
+            this.updateButtonText();
+        });
+    }
+    updateButtonText() {
+        this.querySelector('button').textContent = `Клики: ${this.count}`;
+    }
+}
+customElements.define('click-counter', ClickCounter);
+</script>
+
+<click-counter></click-counter>
+    </html>
+</body>
