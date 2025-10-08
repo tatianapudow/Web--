@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <template id="card-template">
+    <div class="card">
+        <slot name="image">
+            <img src="https://i.pinimg.com/736x/e8/2d/ca/e82dca9dcbce182d1aa6a961d7129ca5.jpg" alt="Budda"/>
+         </slot>
+        <h3><slot name="title">Без названия</slot></h3>
+        <div class="content"><slot name="content">Описание отсутствует</slot></div>
+    </div>
+    </template>
+    <my-card>
+        <img slot="image" src="https://i.pinimg.com/736x/3b/7e/41/3b7e4195a05eaa460e22ddeeb587fba6.jpg" alt="Cat" />
+        <span slot="title">Котенок</span>
+        <p slot="content">Милое маленькое животное.</p>
+    </my-card>
+    <my-card>
+        <img slot="image" src="https://i.pinimg.com/736x/a4/0e/61/a40e61b46450a8553e11a93a63a41955.jpg" alt="Будда" />
+        <span slot="title">Будда</span>
+        <p slot="content">Мантра будды</p>
+    </my-card>
+     <my-card>
+        <img slot="image" src="https://i.pinimg.com/736x/3e/b1/64/3eb164d7d43ab290dd4dc5609ffb26b1.jpg" alt="Котик" />
+        <span slot="title"></span>
+        <p slot="content">Крути коти</p>
+    </my-card>
+
+
+</body>
+</html>
