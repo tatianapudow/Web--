@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBlog - Блог о путешествиях</title>
+    <link rel="stylesheet" href="components.css">
+</head>
+<body>
+    <template id="header-template">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-text"><slot name="site-name">MyProfile</slot></span>
+            </div>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="#" class="nav-link">Главная</a></li>
+                    <li><a href="#" class="nav-link">Статьи</a></li>
+                    <li><a href="#" class="nav-link">О нас</a></li>
+                </ul>
+            </nav>
+        </div>
+    </template>
+
+    <template id="footer-template">
+        <div class="footer-container">
+            <div class="copyright">
+                <slot name="copyright">© 2023 TravelBlog</slot>
+            </div>
+        </div>
+    </template>
+
+    <template id="article-card-template">
+        <div class="article-content">
+            <h3 class="article-title"><slot name="title">Название статьи</slot></h3>
+            <div class="article-excerpt"><slot name="excerpt">Описание статьи...</slot></div>
+            <div class="article-meta">
+                <span class="article-date"><slot name="date">01.01.2023</slot></span>
+            </div>
+            <div class="article-actions">
+                <button class="read-more-btn">Читать</button>
+                <button class="like-btn">♡ <span class="like-count">0</span></button>
+            </div>
+        </div>
+    </template>
+
+    <site-header>
+        <span slot="site-name">MyProfile</span>
+    </site-header>
+
+<main>
+    <h1 class="page-title">Мои путешествия</h1>
+    <div class="articles-container">
+        <article-card>
+            <span slot="title">Исследование древних маяков Греции</span>
+            <span slot="excerpt">Погрузитесь в атмосферу античности и узнайте историю впечатляющих маяков на греческих островах.</span>
+            <span slot="date">10.09.2025</span>
+        </article-card>
+        
+        <article-card>
+            <span slot="title">Экспедиция по пустыням Марокко</span>
+            <span slot="excerpt">Захватывающее путешествие по золотистым пескам и встреча с культурой пустынных племен.</span>
+            <span slot="date">21.08.2025</span>
+        </article-card>
+        
+        <article-card>
+            <span slot="title">Восхождение на вершины Непала</span>
+            <span slot="excerpt">Откройте для себя тайны Гималаев и испытайте настоящую силу природы на высоте.</span>
+            <span slot="date">05.07.2025</span>
+        </article-card>
+    </div>
+</main>
+
+    <site-footer>
+        <span slot="copyright">© 2025 MyProfile</span>
+    </site-footer>
+<script>
+class SiteHeader extends HTMLElement {
+    constructor() {
+        super();
+        const template = document.getElementById('header-template');
+        const shadowRoot = this.attachShadow({mode: 'open'});
+
+        const style = document.createElement('style');
+        style.textContent = `
+            :host {
+                display: block;
+                width: 100%;
+                background: #000000; /* Черный фон, как на всей странице */
+                border-bottom: 1px solid #a11826; /* элегантная красная граница */
+                font-family: 'Didot', Georgia, serif; /* люксовый сериф */
+                color: #ffffff;
+            }
+
+            .header-container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 1rem 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .logo-text {
+                font-size: 1.6rem;
+                font-weight: 900;
+                letter-spacing: 3px;
+                color: #a11826; /* фирменный красный Gucci */
+                font-style: italic;
+                font-family: 'Didot', Georgia, serif;
+            }
+
+            .nav-list {
+                display: flex;
+                list-style: none;
+                gap: 1.5rem;
+                margin: 0;
+                padding: 0;
+            }
+
+            .nav-link {
+                color: #d9d9d9;
+                text-decoration: none;
+                font-family: 'Futura', 'Avenir', sans-serif;
+                font-weight: 500;
+                font-size: 1.1rem;
+                transition: color 0.3s ease;
+            }
+
+            .nav-link:hover {
+                color: #8f1010; /* красный на ховере */
+                text-decoration: underline;
+            }
+        `;
+
+        shadowRoot.appendChild(style);
+        shadowRoot.appendChild(template.content.cloneNode(true));
+    }
+}
+
+customElements.define('site-header', SiteHeader);
+
+
+        class SiteFooter extends HTMLElement {
+            constructor() {
+                super();
+                const template = document.getElementById('footer-template');
+                const shadowRoot = this.attachShadow({mode: 'open'});
+                
+                const style = document.createElement('style');
+                style.textContent = `
+                    :host {
+                        display: block;
+                        width: 100%;
+                        background: #d00000;
+                        border-top: 1px solid #ddd;
+                        margin-top: 40px;
+                    }
+                    
+                    .footer-container {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        text-align: center;
+                        color: #fff;
+                    }
+                `;
+                
+                shadowRoot.appendChild(style);
+                shadowRoot.appendChild(template.content.cloneNode(true));
+            }
+        }
+        customElements.define('site-footer', SiteFooter);
+        
+class ArticleCard extends HTMLElement {
+            constructor() {
+                super();
+                const template = document.getElementById('article-card-template');
+                const shadowRoot = this.attachShadow({mode: 'open'});
+                
+                const style = document.createElement('style');
+                style.textContent = `
+                   :host {
+                        display: block;
+                        background: #fff;
+                        border: 1px solid #a11826; /* тонкая красная граница Gucci */
+                        border-radius: 8px;
+                        font-family: 'Didot', Georgia, serif;
+                        color: #000;
+                        box-shadow: 0 4px 10px rgba(32, 64, 48, 0.15);
+                        transition: box-shadow 0.3s ease;
+                    }
+
+                    :host(:hover) {
+                        box-shadow: 0 8px 20px rgba(32, 64, 48, 0.3);
+                    }
+
+                    .article-content {
+                        padding: 1.2rem 1.25rem;
+                        background: #fefefe;
+                    }
+
+                    .article-title {
+                        font-size: 1.4rem;
+                        margin-bottom: 0.75rem;
+                        color: #204030; /* темно-зеленый Gucci */
+                        font-weight: 700;
+                        letter-spacing: 1px;
+                        font-family: 'Didot', Georgia, serif;
+                    }
+
+                    .article-excerpt {
+                        color: #555;
+                        margin-bottom: 1rem;
+                        font-size: 1rem;
+                        font-family: 'Georgia', serif;
+                        line-height: 1.4;
+                    }
+
+                    .article-meta {
+                        margin-bottom: 1.25rem;
+                        font-size: 0.85rem;
+                        color: #888;
+                        font-family: 'Didot', Georgia, serif;
+                        letter-spacing: 0.5px;
+                    }
+
+                    .article-actions {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+
+                    .read-more-btn {
+                        background: #8f1010; /* глубокий красный Gucci */
+                        color: #fff;
+                        border: none;
+                        padding: 0.5rem 1.1rem;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        font-family: 'Futura', 'Avenir', sans-serif;
+                        transition: background-color 0.3s ease;
+                    }
+
+                    .read-more-btn:hover {
+                        background-color: #204030; /* зеленый на ховере */
+                    }
+
+                    .like-btn {
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        font-size: 1.2rem;
+                        color: #666;
+                        transition: color 0.3s ease;
+                    }
+
+                    .like-btn.liked {
+                        color: #dc3545; /* ярко-красный при лайке */
+                    }
+                `;
+                
+                shadowRoot.appendChild(style);
+                shadowRoot.appendChild(template.content.cloneNode(true));
+                
+                const readMoreBtn = shadowRoot.querySelector('.read-more-btn');
+                const likeBtn = shadowRoot.querySelector('.like-btn');
+                const likeCount = shadowRoot.querySelector('.like-count');
+                
+                readMoreBtn.addEventListener('click', () => {
+                    alert('Чтение статьи: ' + this.querySelector('[slot="title"]').textContent);
+                });
+                
+                let likes = 0;
+                let isLiked = false;
+                
+                likeBtn.addEventListener('click', () => {
+                    if (!isLiked) {
+                        likes++;
+                        likeBtn.classList.add('liked');
+                        likeBtn.textContent = '♥ ' + likes;
+                        isLiked = true;
+                    } else {
+                        likes--;
+                        likeBtn.classList.remove('liked');
+                        likeBtn.textContent = '♡ ' + likes;
+                        isLiked = false;
+                    }
+                });
+            }
+        }
+        customElements.define('article-card', ArticleCard);
+    </script>
+</body>
+</html>
