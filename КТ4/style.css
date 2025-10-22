@@ -1,0 +1,25 @@
+
+[data-order-state="новый"] {
+  color: green;
+}
+
+[data-order-state="в процессе"] {
+  color: blue;
+}
+
+[data-order-state="отменён"] {
+  color: red;
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+div {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  display: inline-block;
+}
