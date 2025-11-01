@@ -1,9 +1,9 @@
 class MyBox extends HTMLElement {
-  static get observedAttributes() {
-    return ["color"];
+  static get observedAttributes() { //метод указывающий какой атрибут нужно вызывать, так же это помагает вызвать attributeChangedCallback
+    return ["color"]; // указываем, за какими атрибутами следить
   }
 
-  connectedCallback() {
+  connectedCallback() {  // метод вызывается, когда элемент добавляется в DOM
     this.textContent = "Я появился!";
     this.style.background = "green";
     this.style.color = "white";
@@ -17,13 +17,13 @@ class MyBox extends HTMLElement {
     this.style.transition = "0.3s";
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name, oldValue, newValue) { //
     if (name === "color") this.style.background = newValue;
   }
 
-  disconnectedCallback() {
-    console.log("Меня удалили!");
-  }
+//   disconnectedCallback() {
+//     console.log("Меня удалили!");
+//   }
 }
 
 customElements.define("my-box", MyBox);
@@ -41,8 +41,8 @@ const modalText = document.getElementById("modal-text");
 
 let created = false;
 
-redBtn.onclick = () => document.querySelectorAll("my-box").forEach(b => b.setAttribute("color", "red"));
-blueBtn.onclick = () => document.querySelectorAll("my-box").forEach(b => b.setAttribute("color", "blue"));
+redBtn.onclick = () => document.querySelectorAll("my-box").forEach(box => box.setAttribute("color", "red")); 
+blueBtn.onclick = () => document.querySelectorAll("my-box").forEach(box => box.setAttribute("color", "blue"));
 delBtn.onclick = () => {
   const boxes = container.querySelectorAll("my-box");
   if (boxes.length > 0) {
@@ -55,31 +55,21 @@ addBtn.onclick = () => {
   container.append(box);
 };
 
-
+//6кт
 function openModal(message) {
-  modal.style.display = "flex";
-  modalText.textContent = message;
+  modal.style.display = "flex"; // делаем модальное окно видимым
+  modalText.textContent = message;// вставляем переданное сообщение 
 
-  // создаём и отправляем кастомное событие
-  const event = new CustomEvent("modal-open", {
-    detail: { message }
-  });
-  modal.dispatchEvent(event);
-}
-modal.addEventListener("modal-open", e => {
   console.log("Модалка открыта!");
-  console.log("Сообщение:", e.detail.message);
-});
+  console.log("Сообщение:", message);
+}
 
-// закрытие по кнопке ×
-closeBtn.onclick = () => modal.style.display = "none";
+closeBtn.onclick = () => modal.style.display = "none"; //обработчик для закрытия нашего окна 
 
-// закрытие по клику вне контента
-modal.onclick = e => {
-  if (e.target === modal) modal.style.display = "none";
-};
+// modal.onclick = event => {
+//   if (event.target === modal) modal.style.display = "none";
+// };
 
-// кнопка "Открыть модалку"
 openModalBtn.onclick = () => {
-  openModal("Привет, Татьяна! 👋 Это твоё модальное окно!");
-};
+  openModal("Привет! Это твоё модальное окно!");
+}; 
