@@ -17,7 +17,7 @@ class MyBox extends HTMLElement {
     this.style.transition = "0.3s";
   }
 
-  attributeChangedCallback(name, oldValue, newValue) { //
+  attributeChangedCallback(name, oldValue, newValue) { 
     if (name === "color") this.style.background = newValue;
   }
 
