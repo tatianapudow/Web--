@@ -1,30 +1,32 @@
-    const modal = document.getElementById("modal");
-    const modalText = document.getElementById("modalText");
-    const openModalBtn = document.getElementById("openModalBtn");
-    const closeBtn = document.getElementById("closeBtn");
+const modal = document.getElementById("modal");
+const modalText = document.getElementById("modalText");
+const openModalBtn = document.getElementById("openModalBtn");
+const closeBtn = document.getElementById("closeBtn");
 
-    function openModal(message) {
-      modal.style.display = "flex"; // показываем модалку
-      modalText.textContent = message; // вставляем текст
+function openModal(message) {
+  modalText.textContent = message;
+  alert("Модальное окно открыто");
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
 
-      console.log("Модалка открыта!");
-      console.log("Сообщение:", message);
-    }
+function closeModal() {
+  modal.classList.remove("show");
+  document.body.style.overflow = "";
+}
 
-    closeBtn.onclick = () => {
-      modal.style.display = "none";
-      console.log("Модалка закрыта!");
-    };
+closeBtn.addEventListener("click", closeModal);
+modal.addEventListener("click", e => {
+  if(e.target === modal) closeModal();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && modal.classList.contains("show")) {
+    closeModal();
+  }
+});
 
-    // // можно закрывать по клику вне окна (если хочешь)
-    //  modal.onclick = event => {
-    //    if (event.target === modal) modal.style.display = "none";
-    //  };
+openModalBtn.addEventListener("click", () => openModal("Привет! Это твоё модальное окно!"));
 
-    openModalBtn.onclick = () => {
-      openModal("Привет! Это твоё модальное окно!");
-    };
- 
 
 // TO-do list 
 customElements.define("todo-item", class extends HTMLElement {
@@ -105,8 +107,8 @@ customElements.define("theme-button", class extends HTMLElement {
       if (currentBg === "white") {
         root.style.setProperty("--bg-color", "black");
         root.style.setProperty("--text-color", "white");
-        root.style.setProperty("background-color", "black"); // для body, если нужно
-        root.style.setProperty("color", "white");           // для body, если нужно
+        root.style.setProperty("background-color", "black"); 
+        root.style.setProperty("color", "white");          
       } else {
         root.style.setProperty("--bg-color", "white");
         root.style.setProperty("--text-color", "black");
