@@ -126,35 +126,46 @@ const postsContainer = document.getElementById("posts");
 const refreshBtn = document.getElementById("refresh");
 const errorContainer = document.getElementById("error");
 
-async function fetchPosts() {
-  const postsContainer = document.getElementById("posts");
-  const errorContainer = document.getElementById("error");
+const API_URL = "https://dummyjson.com/posts";
 
-  try {
-    errorContainer.textContent = "";
-    postsContainer.innerHTML = "<p>Загрузка данных...</p>";
+async function loadPosts() {
+      try {
+        errorContainer.textContent = "";
+        postsContainer.innerHTML = "<p class='loading'>Загрузка постов...</p>";
 
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    if (!response.ok) throw new Error("Ошибка сети");
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error(`Ошибка ${response.status}`);
 
-    const data = await response.json();
+        const { posts } = await response.json();
 
-   
-    postsContainer.innerHTML = data.slice(0, 5)
-      .map(post => `
-        <div class="post">
-          <h3>${post.title}</h3>
-          <p>${post.body}</p>
-        </div>
-      `).join("");
+       
+        postsContainer.innerHTML = posts.slice(0, 5).map(post => `
+          <div class="post">
+            <h3>${escapeHtml(post.title)}</h3>
+            <p>${escapeHtml(post.body)}</p>
+            <div class="tags">
+              ${post.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}
+            </div>
+            
+          </div>
+        `).join("");
 
-  } catch (err) {
-    console.error(err);
-    errorContainer.textContent = "Ошибка при загрузке данных!";
-    postsContainer.innerHTML = "";
-  }
-}
+      } catch (err) {
+        console.error("Ошибка загрузки:", err);
+        errorContainer.textContent = "Не удалось загрузить посты. Попробуйте позже.";
+        postsContainer.innerHTML = "";
+      }
+    }
 
+    
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
 
-fetchPosts();
-document.getElementById("refresh").addEventListener("click", fetchPosts);
+    
+    loadPosts();
+
+    
+    refreshBtn.addEventListener("click", loadPosts);
